@@ -17,14 +17,11 @@ class Bharatx_Payment_Gateway extends WC_Payment_Gateway {
    * @return void
    */
   public function __construct() {
-    $this->id = BHARATX_PAY_IN_3_LANGUAGE_PREFIX;
-    $this->method_title = __(
-      'BharatX Pay In 3',
-      BHARATX_PAY_IN_3_LANGUAGE_PREFIX
-    );
+    $this->id = 'bharatx_pay_in_3';
+    $this->method_title = __('BharatX Pay In 3', 'bharatx-pay-in-3');
     $this->method_description = __(
       'Use this payment method to pay with BharatX Pay In 3. Easily split your payments.',
-      BHARATX_PAY_IN_3_LANGUAGE_PREFIX
+      'bharatx-pay-in-3'
     );
 
     $this->init_form_fields();
@@ -45,54 +42,51 @@ class Bharatx_Payment_Gateway extends WC_Payment_Gateway {
   public function init_form_fields() {
     $this->form_fields = [
       'enabled' => [
-        'title' => __('Enable/Disable', BHARATX_PAY_IN_3_LANGUAGE_PREFIX),
+        'title' => __('Enable/Disable', 'bharatx-pay-in-3'),
         'type' => 'checkbox',
-        'label' => __(
-          'Enable BharatX Pay In 3',
-          BHARATX_PAY_IN_3_LANGUAGE_PREFIX
-        ),
+        'label' => __('Enable BharatX Pay In 3', 'bharatx-pay-in-3'),
         'default' => 'yes',
       ],
       'title' => [
-        'title' => __('Title', BHARATX_PAY_IN_3_LANGUAGE_PREFIX),
+        'title' => __('Title', 'bharatx-pay-in-3'),
         'type' => 'text',
         'description' => __(
           'This controls the title which the user sees during checkout.',
-          BHARATX_PAY_IN_3_LANGUAGE_PREFIX
+          'bharatx-pay-in-3'
         ),
-        'default' => __('BharatX Pay In 3', BHARATX_PAY_IN_3_LANGUAGE_PREFIX),
+        'default' => __('BharatX Pay In 3', 'bharatx-pay-in-3'),
         'desc_tip' => true,
       ],
       'description' => [
-        'title' => __('Description', BHARATX_PAY_IN_3_LANGUAGE_PREFIX),
+        'title' => __('Description', 'bharatx-pay-in-3'),
         'type' => 'text',
         'description' => __(
           'This controls the description which the user sees during checkout.',
-          BHARATX_PAY_IN_3_LANGUAGE_PREFIX
+          'bharatx-pay-in-3'
         ),
         'default' => __(
           'Use this payment method to pay with BharatX Pay In 3. Easily split your payments.',
-          BHARATX_PAY_IN_3_LANGUAGE_PREFIX
+          'bharatx-pay-in-3'
         ),
         'desc_tip' => true,
       ],
       'apiKey' => [
-        'title' => __('API Key', BHARATX_PAY_IN_3_LANGUAGE_PREFIX),
+        'title' => __('API Key', 'bharatx-pay-in-3'),
         'type' => 'text',
         'description' => __(
           'Contact contact@bharatx.tech for API Key.',
-          BHARATX_PAY_IN_3_LANGUAGE_PREFIX
+          'bharatx-pay-in-3'
         ),
         'default' => '',
         'desc_tip' => true,
         'custom_attributes' => ['required' => 'required'],
       ],
       'apiSecret' => [
-        'title' => __('API Secret', BHARATX_PAY_IN_3_LANGUAGE_PREFIX),
+        'title' => __('API Secret', 'bharatx-pay-in-3'),
         'type' => 'password',
         'description' => __(
           'Contact contact@bharatx.tech for API Secret.',
-          BHARATX_PAY_IN_3_LANGUAGE_PREFIX
+          'bharatx-pay-in-3'
         ),
         'default' => '',
         'desc_tip' => true,

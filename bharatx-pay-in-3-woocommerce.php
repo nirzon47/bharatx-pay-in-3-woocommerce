@@ -19,13 +19,6 @@ if (!defined('ABSPATH')) {
   exit();
 }
 
-// Plugin constants
-define('BHARATX_PAY_IN_3_VERSION', '0.1.0');
-define('BHARATX_PAY_IN_3_PLUGIN_DIR', plugin_dir_path(__FILE__));
-define('BHARATX_PAY_IN_3_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('BHARATX_PAY_IN_3_PLUGIN_NAME', 'BharatX Pay In 3');
-define('BHARATX_PAY_IN_3_LANGUAGE_PREFIX', 'bharatx-pay-in-3');
-
 // Load the plugin
 add_action('woocommerce_loaded', 'woocommerce_loaded');
 
@@ -43,7 +36,7 @@ function woocommerce_loaded() {
   }
 
   // Load the gateway class
-  include BHARATX_PAY_IN_3_PLUGIN_DIR . 'includes/class-gateway.php';
+  include plugin_dir_path(__FILE__) . 'class-gateway.php';
 }
 
 // Add payment gateway to WooCommerce
@@ -74,9 +67,62 @@ add_filter(
  */
 function add_bharatx_settings_link($links) {
   $settings_link =
-    '<a href="admin.php?page=wc-settings&tab=checkout&section=bharatx-pay-in-3">' .
-    __('Settings', 'bharatx-pay-in-3') .
+    '<a href="admin.php?page=wc-settings&tab=checkout&section=bharatx_pay_in_3">' .
+    __('Settings', 'bharatx_pay_in_3') .
     '</a>';
   array_unshift($links, $settings_link);
   return $links;
 }
+
+// Hook the custom function to the 'before_woocommerce_init' action
+add_action(
+  'before_woocommerce_init',
+  'declare_cart_checkout_blocks_compatibility'
+);
+
+/**
+ * Custom function to declare compatibility with cart_checkout_blocks feature
+ */
+function declare_cart_checkout_blocks_compatibility() {
+  // Check if the required class exists
+  if (class_exists('\Automattic\WooCommerce\Utilities\FeaturesUtil')) {
+    // Declare compatibility for 'cart_checkout_blocks'
+    \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility(
+      'cart_checkout_blocks',
+      __FILE__,
+      true
+    );
+  }
+}
+
+// Hook the custom function to the 'woocommerce_blocks_loaded' action
+add_action('woocommerce_blocks_loaded', 'bharatx_register_payment_method');
+
+/**
+ * Function to register a payment method type
+ * with WooCommerce Blocks Checkout
+ *
+ */
+function bharatx_register_payment_method() {
+  // Check if the required class exists
+  if (
+    !class_exists(
+      'Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType'
+    )
+  ) {
+    return;
+  }
+
+  // Include the custom Blocks Checkout class
+  require_once plugin_dir_path(__FILE__) . 'class-block.php';
+
+  // Hook the registration function to the 'woocommerce_blocks_payment_method_type_registration' action
+  add_action('woocommerce_blocks_payment_method_type_registration', function (
+    Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry
+  ) {
+    // Register an instance of My_Custom_Gateway_Blocks
+    $payment_method_registry->register(new BharatX_Gateway_Blocks());
+  });
+}
+
+?>
